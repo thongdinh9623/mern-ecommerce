@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart, removeFromCart } from '../slices/cartSlice';
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -20,6 +20,12 @@ const CartScreen = () => {
   const { cartItems } = cart;
   const addToCartHandler = async (product, quantity) => {
     dispatch(addToCart({ ...product, quantity }));
+  };
+  const removeFromCartHandler = async (id) => {
+    dispatch(removeFromCart(id));
+  };
+  const checkoutHandler = () => {
+    navigate('/login?redirect=/shipping');
   };
 
   return (
@@ -51,7 +57,9 @@ const CartScreen = () => {
                     <Form.Control
                       as='select'
                       value={item.quantity}
-                      onChange={(e) => addToCartHandler(item, Number(e.target.value))}
+                      onChange={(e) =>
+                        addToCartHandler(item, Number(e.target.value))
+                      }
                     >
                       {[...Array(item.countInStock).keys()].map((x) => (
                         <option
@@ -67,7 +75,7 @@ const CartScreen = () => {
                     <Button
                       type='button'
                       variant='light'
-                      onClick={() => {}}
+                      onClick={() => removeFromCartHandler(item._id)}
                     >
                       <FaTrash />
                     </Button>
@@ -96,7 +104,7 @@ const CartScreen = () => {
                 type='button'
                 className='btn-block'
                 disabled={cartItems.length === 0}
-                onClick={() => {}}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>
