@@ -13,10 +13,13 @@ connectDB();
 
 const app = express();
 
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
+app.use(express.json());
+app.use(express.urlencoded);
 
-const __dirname = path.resolve()
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes({ extended: true }));
+
+const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
