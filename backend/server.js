@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
@@ -13,11 +14,15 @@ connectDB();
 
 const app = express();
 
+// Body parser middleware
 app.use(express.json());
-app.use(express.urlencoded);
+app.use(express.urlencoded({ extended: true }));
+
+// Cookie parser middleware
+app.use(cookieParser());
 
 app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes({ extended: true }));
+app.use('/api/users', userRoutes);
 
 const __dirname = path.resolve();
 
