@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootswatch/dist/sketchy/bootstrap.css';
 import './assets/index.css';
 import App from './App';
+import PrivateRoute from './components/PrivateRoute.jsx';
 import reportWebVitals from './reportWebVitals';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -47,10 +48,13 @@ const router = createBrowserRouter(
         path='/register'
         element={<RegisterScreen />}
       />
-      <Route
-        path='/shipping'
-        element={<ShippingScreen />}
-      />
+
+      <Route path='' element={<PrivateRoute />}>
+        <Route
+          path='/shipping'
+          element={<ShippingScreen />}
+        />
+      </Route>
     </Route>
 
   )
